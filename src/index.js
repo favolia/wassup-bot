@@ -1,21 +1,20 @@
-import { Client, Events, MessageType } from "@mengkodingan/ckptw";
+require("module-alias/register")
+const { Client, CommandHandler, Events, MessageType } = require("@mengkodingan/ckptw")
+const { config } = require("@/config/config")
+const path = require("path")
 
 // docs: https://ckptw.mengkodingan.my.id/
 
-const bot = new Client({
-    prefix: "!",
-    printQRInTerminal: true, // set ke false jika menggunakan pairing mode
-    // usePairingCode: true, // pairing mode
-    // phoneNumber: "62**********", // nomor target pairing
-    readIncommingMsg: true,
-    WAVersion: [2, 3000, 1015901307] // add this
-});
+const bot = new Client(config.client);
+
+// Create command handlers and load commands.
+const cmd = new CommandHandler(bot, path.resolve(__dirname, "commands"));
+cmd.load();
 
 bot.ev.once(Events.ClientReady, (m) => {
     console.log(`ready at ${m.user.id}`);
 });
 
-bot.command('ping', async (ctx) => ctx.reply({ text: 'pong!' }));
 bot.command('hi', async (ctx) => ctx.reply('hello! you can use string as a first parameter in reply function too!'));
 
 bot.hears('test', async (ctx) => ctx.reply('test 1 2 3 beep boop...'));
