@@ -10,7 +10,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-      "@mengkodingan/ckptw": "^4.3.4"
-  }
+	"dependencies": {
+		"@mengkodingan/ckptw": "^4.3.4",
+	},
+	"devDependencies": {
+		"module-alias": "^2.2.3"
+	},
+	"_moduleAliases": {
+		"@": "."
+	}
 }
