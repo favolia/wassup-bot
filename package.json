@@ -1,20 +1,16 @@
 {
-  "name": "nodejs",
+  "name": "wussup-bot",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Ngetest skill ngebot",
+  "main": "src/index.js",
   "scripts": {
+    "dev": "node ./src/index.js",
     "start": "node ./src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/boom": "^10.0.1",
-    "@types/node": "^18.0.6",
-    "@whiskeysockets/baileys": "^6.7.7",
-    "baileys": "github:WhiskeySockets/Baileys",
-    "pino": "^9.3.2",
-    "qrcode-terminal": "^0.12.0"
+      "@mengkodingan/ckptw": "^4.3.4"
   }
 }
