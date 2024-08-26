@@ -1,60 +1,26 @@
-const makeWASocket = require("@whiskeysockets/baileys").default;
-const { useMultiFileAuthState, DisconnectReason, Browsers, makeInMemoryStore } = require("@whiskeysockets/baileys");
-const path = require('path');
-const pino = require('pino');
-const fs = require('fs');
-const Boom = require("@hapi/boom");
+import { Client, Events, MessageType } from "@mengkodingan/ckptw";
 
-async function connectToWhatsApp() {
-    const store = makeInMemoryStore({});
-    
-    store.readFromFile("./baileys_store.json");
-    
-    setInterval(() => {
-        store.writeToFile("./baileys_store.json");
-    }, 10000);
+// docs: https://ckptw.mengkodingan.my.id/
 
-    const { state, saveCreds } = await useMultiFileAuthState('./BotSession');
-    
-    const sock = makeWASocket({
-        printQRInTerminal: true,
-        logger: pino({ level: 'silent' }),
-        browser: Browsers.macOS("Desktop"),
-        auth: state,
-        linkPreviewImageThumbnailWidth: 300,
-        generateHighQualityLinkPreview: true,
-        syncFullHistory: true,
-    });
+const bot = new Client({
+    prefix: "!",
+    printQRInTerminal: true, // set ke false jika menggunakan pairing mode
+    // usePairingCode: true, // pairing mode
+    // phoneNumber: "62**********", // nomor target pairing
+    readIncommingMsg: true,
+    WAVersion: [2, 3000, 1015901307] // add this
+});
 
-    store.bind(sock.ev);
+bot.ev.once(Events.ClientReady, (m) => {
+    console.log(`ready at ${m.user.id}`);
+});
 
-    sock.ev.on("chats.set", () => {
-        console.log("got chats", store.chats.all());
-    });
+bot.command('ping', async (ctx) => ctx.reply({ text: 'pong!' }));
+bot.command('hi', async (ctx) => ctx.reply('hello! you can use string as a first parameter in reply function too!'));
 
-    sock.ev.on("contacts.set", () => {
-        console.log("got contacts", Object.values(store.contacts));
-    });
+bot.hears('test', async (ctx) => ctx.reply('test 1 2 3 beep boop...'));
+bot.hears(MessageType.stickerMessage, async (ctx) => ctx.reply('wow, cool sticker'));
+bot.hears(['help', 'menu'], async (ctx) => ctx.reply('hears can be use with array too!'));
+bot.hears(/(using\s?)?regex/, async (ctx) => ctx.reply('or using regex!'));
 
-    sock.ev.on("connection.update", (update) => {
-        const { connection, lastDisconnect } = update;
-        if (connection === "close") {
-            const isLoggedOut = lastDisconnect?.error?.output?.statusCode === DisconnectReason.loggedOut;
-            console.log("connection closed due to", lastDisconnect.error, ", reconnecting", !isLoggedOut);
-            
-            if (!isLoggedOut) {
-                connectToWhatsApp();
-            }
-        } else if (connection === "open") {
-            console.log("opened connection");
-        }
-    });
-
-    sock.ev.on('creds.update', saveCreds);
-
-    sock.ev.on("messages.upsert", ({ messages }) => {
-        console.log("got messages", messages);
-    });
-}
-
-connectToWhatsApp();
+bot.launch();
