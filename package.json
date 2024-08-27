@@ -10,13 +10,15 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-	"dependencies": {
-		"@mengkodingan/ckptw": "^4.3.4"
-	},
-	"devDependencies": {
-		"module-alias": "^2.2.3"
-	},
-	"_moduleAliases": {
-		"@": "."
-	}
+  "dependencies": {
+    "@mengkodingan/ckptw": "^4.3.4",
+    "@nechlophomeriaa/spotifydl": "^1.0.29",
+    "scrape-websitee": "^1.0.81"
+  },
+  "devDependencies": {
+    "module-alias": "^2.2.3"
+  },
+  "_moduleAliases": {
+    "@": "."
+  }
 }

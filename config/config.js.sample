@@ -1,7 +1,7 @@
 /** @type {{client: import("@mengkodingan/ckptw").IClientOptions}} */
 module.exports.config = {
   opts: {
-    owner: ["62895334951166@s.whatsapp.net", "628875090455@s.whatsapp.net"]
+    owner: ["628xxx@s.whatsapp.net", "628xxx@s.whatsapp.net"]
   },
   client: {
     prefix: ["/", "!", "#", ''],
