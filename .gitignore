@@ -4,7 +4,7 @@ directory
 session
 node_modules
 store
-.config/config.js
+config.js
 
 # Docusaurus cache and generated files
 .docusaurus
